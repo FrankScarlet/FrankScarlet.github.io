@@ -23,10 +23,10 @@ plugins:
 # Site settings
 url: 'https://mydomain.com'
 baseurl: ''
-title: 'My website'
+title: 'スカーレット'
 description: 'This is my new website'
 permalink: pretty
-logo: "https://www.gravatar.com/avatar/6c0377abcf4da91cdd35dea4554b2a4c?s=52"
+logo: "https://frankscarlet.pro/staticfiles/favicon.ico"
 
 # Pagination
 paginate: 5
@@ -70,3 +70,14 @@ defaults:
       type: "pages"
     values:
       layout: page # Set the default layout for pages
+
+# 8. Site favicons & manifest icons
+favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
+  16: '/assets/logos/favicon.ico'
+  32: '/assets/logos/favicon.ico'
+  96: '/assets/logos/favicon.ico'
+  120: '/assets/logos/favicon.ico'
+  144: '/assets/logos/favicon.ico'
+  180: '/assets/logos/favicon.ico'
+  512: '/assets/logos/favicon.ico'
+  1024: '/assets/logos/favicon.ico'
