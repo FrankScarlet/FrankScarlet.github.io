@@ -5,18 +5,22 @@ categories:
 feature_image: "https://picsum.photos/2560/600?image=872"
 ---
 
-Jekyll真好用，这里就放我GitHub上更新内容的技术文章。
+Jekyll真香，这里以后放有关仓库内容更新的文章
 
-我自己那个域名就写点非技术的内容好了，区分开来。
+> 看看能支持多少Markdown特性。
 
-试试其他的MarkDown特性。
+[自建站](https://www.frankscarlet.pro/)将写点不一样的内容
 
-列表：
+
+
+建立一个列表：
 - A
 - B
 - C
 
-插入一段代码
+插入一段代码，
+
 ```python
 print('hello world')
 ```
+
