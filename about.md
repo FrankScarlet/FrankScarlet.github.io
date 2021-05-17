@@ -1,5 +1,5 @@
 ---
-title: About this website
+title: 网站说明
 ---
 
-I'm not sure yet what this website is about, but I'm sure I'll work it out soon.
+单纯记录GitHub上的个人内容。
