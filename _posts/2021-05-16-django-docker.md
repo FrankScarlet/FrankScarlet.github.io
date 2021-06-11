@@ -1,7 +1,7 @@
 ---
-title: Hello Docker
+title: Hello Docker Part 1
 categories:
-- General
+- Docker
 feature_image: "https://picsum.photos/2560/600?image=872"
 ---
 
