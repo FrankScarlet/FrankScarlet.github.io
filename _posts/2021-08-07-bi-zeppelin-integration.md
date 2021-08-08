@@ -12,6 +12,7 @@ feature_image: "https://picsum.photos/2560/600?image=872"
 
 今天尝试的是编译[Zeppelin](https://github.com/apache/zeppelin)，前端我觉得还好，一眼就能看出，还可以独立启动与打包。不过一到后端我就蒙蔽了，首先这个全体打包就写的很诡异，难道你不能给个选项只编译必要的解释器吗，我又不需要全部的解释器啊。我们截取编译时`log`的一部分，放在最后。气死我了
 
+再想了想，其实可以下载`net-install-interpreter`的包，因为它前端是WAR包放在项目里的，只要打包`npm build`，然后替换前端WAR包就行。
 
 
 > 现在大部分BI平台，都是前后端分离的。
@@ -47,88 +48,108 @@ mvn clean package -DskipTests [Options]
 
 ### 说好的log
 
+> 吐了，耗时这么久，一点用没有
+
 ```log
-[INFO] Zeppelin                                                           [pom]
-[INFO] Zeppelin: Common                                                   [jar]
-[INFO] Zeppelin: Interpreter                                              [jar]
-[INFO] Zeppelin: Interpreter Shaded                                       [jar]
-[INFO] Zeppelin: Interpreter Parent                                       [pom]
-[INFO] Zeppelin: Markdown interpreter                                     [jar]
-[INFO] Zeppelin: Jupyter Support                                          [jar]
-[INFO] Zeppelin: Zengine                                                  [jar]
-[INFO] Zeppelin: Display system apis                                      [jar]
-[INFO] Zeppelin: Jupyter Interpreter                                      [jar]
-[INFO] Zeppelin: Jupyter Interpreter Shaded                               [jar]
-[INFO] Zeppelin: R                                                        [jar]
-[INFO] Zeppelin: Kotlin interpreter                                       [jar]
-[INFO] Zeppelin: Groovy interpreter                                       [jar]
-[INFO] Zeppelin: Spark Parent                                             [pom]
-[INFO] Zeppelin: Spark Shims                                              [jar]
-[INFO] Zeppelin: Spark1 Shims                                             [jar]
-[INFO] Zeppelin: Spark2 Shims                                             [jar]
-[INFO] Zeppelin: Spark3 Shims                                             [jar]
-[INFO] Zeppelin: Python interpreter                                       [jar]
-[INFO] Zeppelin: Spark Interpreter                                        [jar]
-[INFO] Zeppelin: Spark Scala Parent                                       [pom]
-[INFO] Zeppelin: Spark Interpreter Scala_2.10                             [jar]
-[INFO] Zeppelin: Spark Interpreter Scala_2.11                             [jar]
-[INFO] Zeppelin: Spark Interpreter Scala_2.12                             [jar]
-[INFO] Zeppelin: Spark dependencies                                       [jar]
-[INFO] Zeppelin: Shell interpreter                                        [jar]
-[INFO] Zeppelin: Spark-Submit interpreter                                 [jar]
-[INFO] Zeppelin: Submarine interpreter                                    [jar]
-[INFO] Zeppelin: MongoDB interpreter                                      [jar]
-[INFO] Zeppelin: Angular interpreter                                      [jar]
-[INFO] Zeppelin: Livy interpreter                                         [jar]
-[INFO] Zeppelin: HBase interpreter                                        [jar]
-[INFO] Zeppelin: Apache Pig Interpreter                                   [jar]
-[INFO] Zeppelin: JDBC interpreter                                         [jar]
-[INFO] Zeppelin: File System Interpreters                                 [jar]
-[INFO] Zeppelin: Flink Parent                                             [pom]
-[INFO] Zeppelin: Flink Shims                                              [jar]
-[INFO] Zeppelin: Flink1.10 Shims                                          [jar]
-[INFO] Zeppelin: Flink1.11 Shims                                          [jar]
-[INFO] Zeppelin: Flink1.12 Shims                                          [jar]
-[INFO] Zeppelin: Flink1.13 Shims                                          [jar]
-[INFO] Zeppelin: Flink Scala Parent                                       [pom]
-[INFO] Zeppelin: Flink Interpreter Scala_2.11                             [jar]
-[INFO] Zeppelin: Flink Interpreter Scala_2.12                             [jar]
-[INFO] Zeppelin: Flink-Cmd interpreter                                    [jar]
-[INFO] Zeppelin: Apache Ignite interpreter                                [jar]
-[INFO] Zeppelin: InfluxDB interpreter                                     [jar]
-[INFO] Zeppelin: Kylin interpreter                                        [jar]
-[INFO] Zeppelin: Lens interpreter                                         [jar]
-[INFO] Zeppelin: Apache Cassandra interpreter                             [jar]
-[INFO] Zeppelin: Elasticsearch interpreter                                [jar]
-[INFO] Zeppelin: BigQuery interpreter                                     [jar]
-[INFO] Zeppelin: Alluxio interpreter                                      [jar]
-[INFO] Zeppelin: Scio                                                     [jar]
-[INFO] Zeppelin: Neo4j interpreter                                        [jar]
-[INFO] Zeppelin: Sap                                                      [jar]
-[INFO] Zeppelin: Scalding interpreter                                     [jar]
-[INFO] Zeppelin: Java interpreter                                         [jar]
-[INFO] Zeppelin: Beam interpreter                                         [jar]
-[INFO] Zeppelin: Hazelcast Jet interpreter                                [jar]
-[INFO] Zeppelin: Apache Geode interpreter                                 [jar]
-[INFO] Zeppelin: Kafka SQL interpreter                                    [jar]
-[INFO] Zeppelin: Sparql interpreter                                       [jar]
-[INFO] Zeppelin: Client                                                   [jar]
-[INFO] Zeppelin: Client Examples                                          [jar]
-[INFO] Zeppelin: web Application                                          [war]
-[INFO] Zeppelin: Server                                                   [jar]
-[INFO] Zeppelin: Plugins Parent                                           [pom]
-[INFO] Zeppelin: Plugin S3NotebookRepo                                    [jar]
-[INFO] Zeppelin: Plugin GitHubNotebookRepo                                [jar]
-[INFO] Zeppelin: Plugin AzureNotebookRepo                                 [jar]
-[INFO] Zeppelin: Plugin GCSNotebookRepo                                   [jar]
-[INFO] Zeppelin: Plugin ZeppelinHubRepo                                   [jar]
-[INFO] Zeppelin: Plugin FileSystemNotebookRepo                            [jar]
-[INFO] Zeppelin: Plugin MongoNotebookRepo                                 [jar]
-[INFO] Zeppelin: Plugin OSSNotebookRepo                                   [jar]
-[INFO] Zeppelin: Plugin Kubernetes StandardLauncher                       [jar]
-[INFO] Zeppelin: Plugin Flink Launcher                                    [jar]
-[INFO] Zeppelin: Plugin Docker Launcher                                   [jar]
-[INFO] Zeppelin: Plugin Cluster Launcher                                  [jar]
-[INFO] Zeppelin: Plugin Yarn Launcher                                     [jar]
-[INFO] Zeppelin: Packaging distribution                                   [pom]
+[INFO] Reactor Summary for Zeppelin 0.10.0-SNAPSHOT:
+[INFO] 
+[INFO] Zeppelin ........................................... SUCCESS [ 11.131 s]
+[INFO] Zeppelin: Common ................................... SUCCESS [02:04 min]
+[INFO] Zeppelin: Interpreter .............................. SUCCESS [02:12 min]
+[INFO] Zeppelin: Interpreter Shaded ....................... SUCCESS [02:45 min]
+[INFO] Zeppelin: Interpreter Parent ....................... SUCCESS [02:01 min]
+[INFO] Zeppelin: Markdown interpreter ..................... SUCCESS [  7.085 s]
+[INFO] Zeppelin: Jupyter Support .......................... SUCCESS [02:01 min]
+[INFO] Zeppelin: Zengine .................................. SUCCESS [02:06 min]
+[INFO] Zeppelin: Display system apis ...................... SUCCESS [ 10.930 s]
+[INFO] Zeppelin: Jupyter Interpreter ...................... SUCCESS [  6.097 s]
+[INFO] Zeppelin: Jupyter Interpreter Shaded ............... SUCCESS [02:03 min]
+[INFO] Zeppelin: R ........................................ SUCCESS [ 15.752 s]
+[INFO] Zeppelin: Kotlin interpreter ....................... SUCCESS [01:11 min]
+[INFO] Zeppelin: Groovy interpreter ....................... SUCCESS [02:01 min]
+[INFO] Zeppelin: Spark Parent ............................. SUCCESS [  2.043 s]
+[INFO] Zeppelin: Spark Shims .............................. SUCCESS [  2.013 s]
+[INFO] Zeppelin: Spark1 Shims ............................. SUCCESS [02:02 min]
+[INFO] Zeppelin: Spark2 Shims ............................. SUCCESS [02:03 min]
+[INFO] Zeppelin: Spark3 Shims ............................. SUCCESS [  4.717 s]
+[INFO] Zeppelin: Python interpreter ....................... SUCCESS [  4.122 s]
+[INFO] Zeppelin: Spark Interpreter ........................ SUCCESS [ 24.586 s]
+[INFO] Zeppelin: Spark Scala Parent ....................... SUCCESS [  2.472 s]
+[INFO] Zeppelin: Spark Interpreter Scala_2.10 ............. SUCCESS [  9.145 s]
+[INFO] Zeppelin: Spark Interpreter Scala_2.11 ............. SUCCESS [02:08 min]
+[INFO] Zeppelin: Spark Interpreter Scala_2.12 ............. SUCCESS [  8.306 s]
+[INFO] Zeppelin: Spark dependencies ....................... SUCCESS [02:25 min]
+[INFO] Zeppelin: Shell interpreter ........................ SUCCESS [02:03 min]
+[INFO] Zeppelin: Spark-Submit interpreter ................. SUCCESS [02:02 min]
+[INFO] Zeppelin: Submarine interpreter .................... SUCCESS [ 40.875 s]
+[INFO] Zeppelin: MongoDB interpreter ...................... SUCCESS [ 33.415 s]
+[INFO] Zeppelin: Angular interpreter ...................... SUCCESS [  2.232 s]
+[INFO] Zeppelin: Livy interpreter ......................... SUCCESS [  4.039 s]
+[INFO] Zeppelin: HBase interpreter ........................ SUCCESS [02:09 min]
+[INFO] Zeppelin: Apache Pig Interpreter ................... SUCCESS [ 18.745 s]
+[INFO] Zeppelin: JDBC interpreter ......................... SUCCESS [ 36.842 s]
+[INFO] Zeppelin: File System Interpreters ................. SUCCESS [  3.562 s]
+[INFO] Zeppelin: Flink Parent ............................. SUCCESS [  2.694 s]
+[INFO] Zeppelin: Flink Shims .............................. SUCCESS [  3.223 s]
+[INFO] Zeppelin: Flink1.10 Shims .......................... SUCCESS [  3.918 s]
+[INFO] Zeppelin: Flink1.11 Shims .......................... SUCCESS [  4.557 s]
+[INFO] Zeppelin: Flink1.12 Shims .......................... SUCCESS [  4.755 s]
+[INFO] Zeppelin: Flink1.13 Shims .......................... SUCCESS [  4.970 s]
+[INFO] Zeppelin: Flink Scala Parent ....................... SUCCESS [  4.261 s]
+[INFO] Zeppelin: Flink Interpreter Scala_2.11 ............. SUCCESS [ 33.348 s]
+[INFO] Zeppelin: Flink Interpreter Scala_2.12 ............. SUCCESS [05:47 min]
+[INFO] Zeppelin: Flink-Cmd interpreter .................... SUCCESS [02:02 min]
+[INFO] Zeppelin: Apache Ignite interpreter ................ SUCCESS [ 15.615 s]
+[INFO] Zeppelin: InfluxDB interpreter ..................... SUCCESS [02:05 min]
+[INFO] Zeppelin: Kylin interpreter ........................ SUCCESS [02:01 min]
+[INFO] Zeppelin: Lens interpreter ......................... SUCCESS [ 12.648 s]
+[INFO] Zeppelin: Apache Cassandra interpreter ............. SUCCESS [01:40 min]
+[INFO] Zeppelin: Elasticsearch interpreter ................ SUCCESS [  9.981 s]
+[INFO] Zeppelin: BigQuery interpreter ..................... SUCCESS [  6.010 s]
+[INFO] Zeppelin: Alluxio interpreter ...................... SUCCESS [  8.230 s]
+[INFO] Zeppelin: Scio ..................................... SUCCESS [01:14 min]
+[INFO] Zeppelin: Neo4j interpreter ........................ SUCCESS [  5.129 s]
+[INFO] Zeppelin: Sap ...................................... SUCCESS [  4.238 s]
+[INFO] Zeppelin: Scalding interpreter ..................... FAILURE [ 13.825 s]
+[INFO] Zeppelin: Java interpreter ......................... SKIPPED
+[INFO] Zeppelin: Beam interpreter ......................... SKIPPED
+[INFO] Zeppelin: Hazelcast Jet interpreter ................ SKIPPED
+[INFO] Zeppelin: Apache Geode interpreter ................. SKIPPED
+[INFO] Zeppelin: Kafka SQL interpreter .................... SKIPPED
+[INFO] Zeppelin: Sparql interpreter ....................... SKIPPED
+[INFO] Zeppelin: Client ................................... SKIPPED
+[INFO] Zeppelin: Client Examples .......................... SKIPPED
+[INFO] Zeppelin: web Application .......................... SKIPPED
+[INFO] Zeppelin: Server ................................... SKIPPED
+[INFO] Zeppelin: Plugins Parent ........................... SKIPPED
+[INFO] Zeppelin: Plugin S3NotebookRepo .................... SKIPPED
+[INFO] Zeppelin: Plugin GitHubNotebookRepo ................ SKIPPED
+[INFO] Zeppelin: Plugin AzureNotebookRepo ................. SKIPPED
+[INFO] Zeppelin: Plugin GCSNotebookRepo ................... SKIPPED
+[INFO] Zeppelin: Plugin ZeppelinHubRepo ................... SKIPPED
+[INFO] Zeppelin: Plugin FileSystemNotebookRepo ............ SKIPPED
+[INFO] Zeppelin: Plugin MongoNotebookRepo ................. SKIPPED
+[INFO] Zeppelin: Plugin OSSNotebookRepo ................... SKIPPED
+[INFO] Zeppelin: Plugin Kubernetes StandardLauncher ....... SKIPPED
+[INFO] Zeppelin: Plugin Flink Launcher .................... SKIPPED
+[INFO] Zeppelin: Plugin Docker Launcher ................... SKIPPED
+[INFO] Zeppelin: Plugin Cluster Launcher .................. SKIPPED
+[INFO] Zeppelin: Plugin Yarn Launcher ..................... SKIPPED
+[INFO] Zeppelin: Packaging distribution ................... SKIPPED
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  54:42 min
+[INFO] Finished at: 2021-08-08T19:16:09+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal on project zeppelin-scalding_2.10: Could not resolve dependencies for project org.apache.zeppelin:zeppelin-scalding_2.10:jar:0.10.0-SNAPSHOT: The following artifacts could not be resolved: cascading:cascading-core:jar:2.6.1, cascading:cascading-hadoop:jar:2.6.1, cascading:cascading-local:jar:2.6.1, com.hadoop.gplcompression:hadoop-lzo:jar:0.4.19, cascading.avro:avro-scheme:jar:2.1.2: Could not find artifact cascading:cascading-core:jar:2.6.1 in aliyunmaven (https://maven.aliyun.com/repository/public) -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/DependencyResolutionException
+[ERROR] 
+[ERROR] After correcting the problems, you can resume the build with the command
+[ERROR]   mvn <args> -rf :zeppelin-scalding_2.10
 ```
