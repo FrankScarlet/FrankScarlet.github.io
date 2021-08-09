@@ -81,3 +81,8 @@ favicons: # Favicons are also used in the manifest file. Syntax is 'size: path'
   180: '/assets/logos/favicon.ico'
   512: '/assets/logos/favicon.ico'
   1024: '/assets/logos/favicon.ico'
+
+fonts:
+  font_urls:
+    - https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap
+    # - https://fonts.googleapis.com/css?family=Noto+Sans+SC
