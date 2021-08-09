@@ -19,16 +19,47 @@ feature_image: "https://picsum.photos/2560/600?image=872"
 > 这个Zeppelin，乍一看是打包成WAR包，但是实际上是前后端分离的。
 > 之前fork的Metabase就好一点，可以前后端完全分开跑。
 
-### 前端 zeppelin-web-angular
+## 前端 
 
-> 很容易看出来，前端项目是这个
+前端项目似乎有两个，总之编译和启动都比较轻松。
+
+- zeppelin-web
+- zeppelin-web-angular
+
+### zeppelin-web
+
+因为有个包是Git上的，所以要配置`.bowerrc` 
+
+```bash
+yarn install
+yarn run dev
+yarn run build:dist
+mvn package
+```
+
+### zeppelin-web-angular
 
 ```bash
 npm install # 默认用LTS版本，不要升级npm
 npm start # 然后就能调试前端的项目了，真好
+mvn package
 ```
 
-### 后端 
+### 最终目标
+
+两个项目打包完成后，都以`0.10.war`的形式存在。可以将他们拷贝进`zeppelin-0.9.0-bin-netinst`，然后执行
+
+```bash
+export ZEPPELIN_WAR=zeppelin-web-0.10.0-SNAPSHOT.war ZEPPELIN_ANGULAR_WAR=zeppelin-web-angular-0.10.0-SNAPSHOT.war
+bin/zeppelin-daemon.sh start
+```
+
+这里有个小坑，查有关资料可以看出，`zeppelin-web-angular`是新UI，用`Angular`重新构建的。有个[issue](https://github.com/apache/zeppelin/commit/6ddc0c685f9c684c3b79b803cf238266bfd0a669)介绍了二者的合并过程，我看第一眼以为现在的Jetty也是用两个端口来处理两个WAR。好吧，后面一沟通，发现旧UI的菜单里有个`Try the new Zeppelin`。点进去，访问的地址是`localhost:8080/next/`，原来是换了个`context`。从实现进度来看，新UI已经从单独的项目合并进了主分支，迟早会替代旧UI。
+
+因此，我选择在旧UI上关闭掉登录接口，在新UI上加上自定义逻辑。
+
+
+## 后端 
 
 > 后端项目是哪个？如何只运行后端
 > 打包之后，就前后端都运行了
