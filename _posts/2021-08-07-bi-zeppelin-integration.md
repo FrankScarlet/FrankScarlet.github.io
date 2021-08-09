@@ -7,12 +7,25 @@ feature_image: "https://picsum.photos/2560/600?image=872"
 
 用BI平台，带来更好的数据探索体验。
 
-理论上是这样，每个平台在试用的时候的都看起来很美好，支持各种部署、多种数据源、精美的展示。但是当要把BI平台嵌入到业务系统时，就出问题了。一旦你开始从源码编译这些BI平台，尝试读懂项目的结构。
-就陷入了深渊。
+## BI导言
+
+BI(Business intelligence)，商业智能平台。帮助用户导入、清理、分析各种来源的数据，来提升业务决策的效率与有效性。
+
+整体的需求如下：
+
+1. 多样的数据源支持
+2. 响应式的展示（移动和桌面设备）
+3. 用户自定义仪表盘，精美的数据可视化展示
+4. 权限系统沿用现有业务系统
+5. 良好的执行效率，可伸缩的部署
+
+## 入坑
+
+理论上是这样，每个平台在试用的时候的都看起来很美好，支持各种部署、多种数据源、精美的展示。但是当要把BI平台嵌入到业务系统时，就出问题了。一旦你开始从源码编译这些BI平台，尝试读懂项目的结构，就陷入了深渊。
 
 今天尝试的是编译[Zeppelin](https://github.com/apache/zeppelin)，前端我觉得还好，一眼就能看出，还可以独立启动与打包。不过一到后端我就蒙蔽了，首先这个全体打包就写的很诡异，难道你不能给个选项只编译必要的解释器吗，我又不需要全部的解释器啊。我们截取编译时`log`的一部分，放在最后。气死我了
 
-再想了想，其实可以下载`net-install-interpreter`的包，因为它前端是WAR包放在项目里的，只要打包`npm build`，然后替换前端WAR包就行。
+再想了想，其实可以下载`net-install-interpreter`的包，因为它前端是WAR包放在项目里的，只要打包`mvn package`，然后替换前端WAR包就行，在下一节对过程进行描述
 
 
 > 现在大部分BI平台，都是前后端分离的。
@@ -28,7 +41,7 @@ feature_image: "https://picsum.photos/2560/600?image=872"
 
 ### zeppelin-web
 
-因为有个包是Git上的，所以要配置`.bowerrc` 
+因为有个包是Git上的，可能要配置`.bowerrc`，完全让代理接管请求。
 
 ```bash
 yarn install
@@ -50,13 +63,16 @@ mvn package
 两个项目打包完成后，都以`0.10.war`的形式存在。可以将他们拷贝进`zeppelin-0.9.0-bin-netinst`，然后执行
 
 ```bash
-export ZEPPELIN_WAR=zeppelin-web-0.10.0-SNAPSHOT.war ZEPPELIN_ANGULAR_WAR=zeppelin-web-angular-0.10.0-SNAPSHOT.war
+# export ZEPPELIN_WAR=zeppelin-web-0.10.0-SNAPSHOT.war ZEPPELIN_ANGULAR_WAR=zeppelin-web-angular-0.10.0-SNAPSHOT.war
+# 似乎前面那个不替换其实也行，不过为了整体性考虑，需要把前面的登录封死
+# 直接替换新UI
+export ZEPPELIN_ANGULAR_WAR=zeppelin-web-angular-0.10.0-SNAPSHOT.war
 bin/zeppelin-daemon.sh start
 ```
 
 这里有个小坑，查有关资料可以看出，`zeppelin-web-angular`是新UI，用`Angular`重新构建的。有个[issue](https://github.com/apache/zeppelin/commit/6ddc0c685f9c684c3b79b803cf238266bfd0a669)介绍了二者的合并过程，我看第一眼以为现在的Jetty也是用两个端口来处理两个WAR。好吧，后面一沟通，发现旧UI的菜单里有个`Try the new Zeppelin`。点进去，访问的地址是`localhost:8080/next/`，原来是换了个`context`。从实现进度来看，新UI已经从单独的项目合并进了主分支，迟早会替代旧UI。
 
-因此，我选择在旧UI上关闭掉登录接口，在新UI上加上自定义逻辑。
+最终，我选择在旧UI上关闭掉登录接口，在新UI上加上自定义逻辑。
 
 
 ## 后端 
@@ -65,7 +81,7 @@ bin/zeppelin-daemon.sh start
 > 打包之后，就前后端都运行了
 
 
-### 默认方式
+### 默认编译
 
 ```bash
 # java -version 
