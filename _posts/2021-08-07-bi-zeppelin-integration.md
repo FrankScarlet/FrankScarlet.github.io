@@ -80,6 +80,26 @@ bin/zeppelin-daemon.sh start
 > 后端项目是哪个？如何只运行后端
 > 打包之后，就前后端都运行了
 
+### TBD
+
+可使用的资料
+- [](https://zeppelin.apache.org/docs/0.9.0/development/contribution/how_to_contribute_code.html#run-zeppelin-server-in-development-mode)
+
+参数说明
+
+`-pl`指定project名, `--am` 也就是`also make`，会把相依赖的项目也编译。靠，那你早说啊。我前面还喷那么狠，早点写清楚怎么前后端分别测试不就好了...
+
+```bash
+mvn clean package -pl 'spark,spark-dependencies,zeppelin-server' --am -DskipTests
+```
+
+```bash
+cd zeppelin-server
+HADOOP_HOME=YOUR_HADOOP_HOME JAVA_HOME=YOUR_JAVA_HOME \
+mvn exec:java -Dexec.mainClass="org.apache.zeppelin.server.ZeppelinServer" -Dexec.args=""
+```
+
+
 
 ### 默认编译
 
