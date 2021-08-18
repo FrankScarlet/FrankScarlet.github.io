@@ -79,26 +79,61 @@ bin/zeppelin-daemon.sh start
 
 > 后端项目是哪个？如何只运行后端
 > 打包之后，就前后端都运行了
+> 前先完成前面的前端编译，最好都能生成对应的dist
 
-### TBD
+### 混沌的mvn
 
-可使用的资料
-- [](https://zeppelin.apache.org/docs/0.9.0/development/contribution/how_to_contribute_code.html#run-zeppelin-server-in-development-mode)
+说明：
 
-参数说明
+1. [zeppelin-development](https://zeppelin.apache.org/docs/0.9.0/development/contribution/how_to_contribute_code.html#run-zeppelin-server-in-development-mode)
+2. `-pl`指定project名, `--am` 也就是`also make`，会把相依赖的项目也编译。靠，那你早说啊。我前面还喷那么狠，早点写清楚怎么前后端分别测试不就好了...
 
-`-pl`指定project名, `--am` 也就是`also make`，会把相依赖的项目也编译。靠，那你早说啊。我前面还喷那么狠，早点写清楚怎么前后端分别测试不就好了...
+主要都要在`zeppelin`主目录下，针对`pom.xml`（主要的）的命令。先执行
 
 ```bash
-mvn clean package -pl 'spark,spark-dependencies,zeppelin-server' --am -DskipTests
+mvn clean package -pl 'zeppelin-server' --am -DskipTests
+mvn clean install -pl 'zeppelin-server' --am -DskipTests # 稍微改一下，添加到.m2里
 ```
+
+执行日志如下，两步是类似的。package给你用来测试打包，install就会把一些SNAPSHOT移入本地`.m2/repository`。
+
+```log
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for Zeppelin 0.10.0-SNAPSHOT:
+[INFO]
+[INFO] Zeppelin ........................................... SUCCESS [02:07 min]
+[INFO] Zeppelin: Common ................................... SUCCESS [  4.005 s]
+[INFO] Zeppelin: Interpreter .............................. SUCCESS [04:15 min]
+[INFO] Zeppelin: Interpreter Shaded ....................... SUCCESS [03:06 min]
+[INFO] Zeppelin: Interpreter Parent ....................... SUCCESS [  1.890 s]
+[INFO] Zeppelin: Markdown interpreter ..................... SUCCESS [04:09 min]
+[INFO] Zeppelin: Jupyter Support .......................... SUCCESS [  3.295 s]
+[INFO] Zeppelin: Zengine .................................. SUCCESS [04:08 min]
+[INFO] Zeppelin: Server ................................... SUCCESS [ 12.739 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  18:10 min
+[INFO] Finished at: 2021-08-12T00:51:34+08:00
+[INFO] ------------------------------------------------------------------------
+scarlet@LAPTOP:~/playground/zeppelin$ mvn clean package -pl 'zeppelin-server' --am -DskipTests
+```
+
+执行完之后，就到了最迷惑的地方，先看原文
 
 ```bash
 cd zeppelin-server
 HADOOP_HOME=YOUR_HADOOP_HOME JAVA_HOME=YOUR_JAVA_HOME \
 mvn exec:java -Dexec.mainClass="org.apache.zeppelin.server.ZeppelinServer" -Dexec.args=""
+# Windows
+mvn exec:java -D"exec.mainClass"="org.apache.zeppelin.server.ZeppelinServer"
 ```
 
+这个步骤我在Linux下都不太好复现，不过通过`VS Code`，找了恰当的使用方法。主要的坑点在于，后台启动的时候，是需要去读取前端进`Jetty`的，所以要在根目录下执行。用前面的步骤`package install`核心组件后。在zeppelin根目录，指向那个server项目，执行相关参数。此时就会自动读取 `web` 和`web-angular`下面的`dist`，然后就相当于启动了项目。
+
+```bash
+mvn exec:java -Dexec.mainClass="org.apache.zeppelin.server.ZeppelinServer" -Dexec.args="" -f "/home/scarlet/playground/zeppelin/zeppelin-server/pom.xml"
+```
 
 
 ### 默认编译
