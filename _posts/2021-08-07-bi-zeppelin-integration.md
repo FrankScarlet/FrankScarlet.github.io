@@ -9,9 +9,7 @@ feature_image: "https://picsum.photos/2560/600?image=872"
 
 ## BI导言
 
-BI(Business intelligence)，商业智能平台。帮助用户导入、清理、分析各种来源的数据，来提升业务决策的效率与有效性。
-
-整体的需求如下：
+BI(Business intelligence)，商业智能平台。帮助用户导入、清理、分析各种来源的数据，来提升业务决策的效率与有效性。对于BI平台，整体的需求如下：
 
 1. 多样的数据源支持
 2. 响应式的展示（移动和桌面设备）
@@ -145,6 +143,64 @@ mvn clean package -DskipTests [Options]
 # 你就不能给个选项，改成你发行的另一个版本，用网络来安装解释器吗...
 # 我要吐血了，Google也没搜到什么好结果，是大家都放弃了吗..
 ```
+
+## 解释器
+
+### hive
+
+> hive 被合并进jdbc解释器，如果要安装，需要在interpreter界面配置，并配置有关artifact
+> 我用net-install版本地尝试一下，然后手动打包移入离线环境
+
+```bash
+./bin/install-interpreter.sh -n jdbc
+# Install jdbc(org.apache.zeppelin:zeppelin-jdbc:0.9.0) to /home/scarlet/downloads/zeppelin-0.9.0-bin-netinst/interpreter/jdbc ...
+# Interpreter jdbc installed under /home/scarlet/downloads/zeppelin-0.9.0-bin-netinst/interpreter/jdbc.
+#1. Restart Zeppelin
+#2. Create interpreter setting in 'Interpreter' menu on Zeppelin GUI
+#3. Then you can bind the interpreter on your note
+```
+
+`/#/interpreter` 界面可以配置`repository`，在`conf/interpreter.json`里, 可以把 `central去掉`
+
+```json
+    {
+      "id": "central",
+      "type": "default",
+      "url": "https://repo1.maven.org/maven2/",
+      "host": "repo1.maven.org",
+      "protocol": "https",
+      "releasePolicy": {
+        "enabled": true,
+        "updatePolicy": "daily",
+        "checksumPolicy": "warn"
+      },
+      "snapshotPolicy": {
+        "enabled": true,
+        "updatePolicy": "daily",
+        "checksumPolicy": "warn"
+      },
+      "mirroredRepositories": [],
+      "repositoryManager": false
+    }
+```
+
+一个`hive-jdbc`的`pom.xml`可以这么写，或者去`mvnrepository.com`。下面的`Compiled Dependencies`里会写清楚大概的依赖关系
+
+```xml
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.apache.hive</groupId>
+      <artifactId>hive-jdbc</artifactId>
+      <version>2.3.9</version>
+    </dependency>
+```
+
 
 ## 附言
 
