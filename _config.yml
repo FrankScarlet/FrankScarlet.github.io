@@ -21,10 +21,11 @@ plugins:
 - jekyll-remote-theme
 
 # Site settings
-url: 'https://mydomain.com'
+name: '机型不适配'
+url: 'https://frankscarlet.github.io/'
 baseurl: ''
 title: 'スカーレット'
-description: 'This is my new website'
+description: 'ScarletFrank的技术博客'
 permalink: pretty
 logo: "https://frankscarlet.pro/staticfiles/favicon.ico"
 
@@ -45,6 +46,9 @@ navigation_header:
 navigation_footer:
 - title: Back to top
   url: "#top"
+
+social_links: # Appears in sidebar. Set the urls then uncomment and comment out as desired
+  RSS: /feed.xml
 
 # Collections
 collections:
