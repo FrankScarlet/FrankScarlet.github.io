@@ -3,7 +3,7 @@ title: GitHub Page with Jekyll
 categories:
 - General
 feature_image: "https://picsum.photos/2560/600?image=872"
-excerpt: Jekyll真香，支持的Markdown格式有哪些
+excerpt: 验证Jekyll支持的Markdown格式有哪些
 ---
 
 > 看看能支持多少Markdown特性。
